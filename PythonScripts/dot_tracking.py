@@ -5,13 +5,22 @@ import pandas as pd
 import time 
 import serial
 
+ser = serial.Serial('COM8', 9600, timeout=1)
 # cap = cv2.VideoCapture("tmp/test.mp4")
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+
+midWidth = width // 2
+midHeight = height // 2
+
 fps = cap.get(cv2.CAP_PROP_FPS)
+
+# Checking width and height for tuning the arduino code
+print(f"width: {width}, height: {height}")
+print(f"Mid Width: {midWidth}, Mid Height: {midHeight}")
 
 out = cv2.VideoWriter("tmp/result.mp4", fourcc, fps, (int(width), int(height)))
 
@@ -34,14 +43,19 @@ def detect_circles(frame):
             return [i[0], i[1], i[2]]
     return None
 
+def find_position(position):
+    return [position[0]-midWidth, position[1]-midHeight]
+
+# Resetting gaze position to 0,0
+ser.write(('0,0'.encode()))
+
 
 while(cap.isOpened()):
     ret, frame = cap.read()
     if ret == True:
         circle = detect_circles(frame)
-        print(circle)
         result = frame.copy()
-        
+        # print(circle)
         if circle:
             cv2.circle(result, (circle[0], circle[1]), circle[2], (0, 255, 0), 10)
             # 绘制圆心
@@ -49,9 +63,17 @@ while(cap.isOpened()):
             cv2.imshow('frame', result)
             cv2.waitKey(5)
             circle_info.append(circle)
+
+            # Sending serial message to arduino
+            pos = find_position(circle)
+            print(pos)
+            arduino_msg = ','.join(map(str, pos)) + '\n'
+            ser.write(arduino_msg.encode())
+
         out.write(result)
     else:
         break
+
 df = pd.DataFrame(circle_info, columns=['x', 'y', 'radius'])
 df.to_csv("tmp/result.csv")
 cap.release()

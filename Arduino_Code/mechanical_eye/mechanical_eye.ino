@@ -20,8 +20,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // Camera Characteristics
 
 // Resolution
-const int cameraWidth = 1080;
-const int cameraHeight = 1920;
+const int cameraWidth = 640;
+const int cameraHeight = 480;
 
 const float FOV_x = 60.0;
 const float FOV_y= 45.0;
@@ -64,6 +64,13 @@ void loop() {
   // float x = readSerialFloat();
   // float y = readSerialFloat();
 
+// Read the current PWM value for servo connected to channel 0
+  int pwmValue = pwm.getPWM(0);
+  
+  // Print the current PWM value to the serial monitor
+  Serial.print("Current PWM Value for Servo on Channel 0: ");
+  Serial.println(pwmValue);
+
   Coordinates coords = readCoordinates();
   float x = coords.x;
   float y = coords.y;
@@ -77,7 +84,7 @@ void loop() {
   pwm.setPWM(1, 0, xServoValue);
   pwm.setPWM(0, 0, yServoValue);
   
-  delay(1000);
+  delay(500);
   Serial.println("New eye movement!");
 }
 
@@ -90,7 +97,7 @@ AngularDistance calculateAngularDistance(int x, int y) {
   y += originOffsetY;
 
   // Use the calculated ADPP to convert pixel coordinates to angular distance per components
-  result.xAD = x * angularDistancePerPixelX;
+  result.xAD = -x * angularDistancePerPixelX;
   Serial.print(x);
   Serial.print(" in x angular distance is ");
   Serial.println(result.xAD);
@@ -103,8 +110,8 @@ AngularDistance calculateAngularDistance(int x, int y) {
 
   // The prints gives out the new position that the eyes are looking at and their angular distance.
 
-  originOffsetX = x;
-  originOffsetY = y;
+  // originOffsetX = x;
+  // originOffsetY = y;
 
   return result;
 }
