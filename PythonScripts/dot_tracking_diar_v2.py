@@ -64,8 +64,8 @@ try:
             else:
                 break
 
-except serial.SerialException as e:
-    print("Error: Could not open serial port:", e)
+except KeyboardInterrupt:
+    print("User interrupted:", e)
 
 df = pd.DataFrame(circle_info, columns=['x', 'y', 'radius'])
 df.to_csv("tmp/result.csv")
