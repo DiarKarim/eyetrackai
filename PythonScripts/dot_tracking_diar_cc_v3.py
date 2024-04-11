@@ -55,6 +55,9 @@ def detect_circles(frame):
     # Apply Hough Circle Transform
     circles = cv2.HoughCircles(gray_blurred, cv2.HOUGH_GRADIENT, 1, 50,
                                param1=50, param2=30, minRadius=0, maxRadius=0)
+    
+    cv2.imwrite('test.png',frame)
+    
     if circles is not None:
         circles = np.uint16(np.around(circles))
         for i in circles[0, :]:
@@ -81,6 +84,7 @@ try:
                     # Send data to serial port
                     data_string = f"{number1},{number2}\n"
                     ser.write(data_string.encode('ascii'))
+
 
                 out.write(frame)
             else:
