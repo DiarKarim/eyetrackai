@@ -11,8 +11,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define YSERVOMAX  430
 
 // Camera Characteristics
-const int cameraWidth = 1080;
-const int cameraHeight = 1920;
+const int cameraWidth = 480;
+const int cameraHeight = 640;
 const float FOV_x = 60.0;
 const float FOV_y= 45.0;
 const float angularDistancePerPixelX = FOV_x/cameraWidth;
@@ -33,7 +33,7 @@ struct Coordinates {
 };
 
 void setup() {
-  Serial.begin(9600); // Start serial communication at 9600 baud rate
+  Serial.begin(115200); // Start serial communication at 9600 baud rate
   Serial.println("Simplified Eye Mechanism Test");
 
   pwm.begin(); // Initialize PWM servo driver
@@ -56,7 +56,7 @@ void loop() {
   pwm.setPWM(1, 0, xServoValue);
   pwm.setPWM(0, 0, yServoValue);
   
-  delay(1000);
+  delay(10);
   Serial.println("New eye movement!");
 }
 
