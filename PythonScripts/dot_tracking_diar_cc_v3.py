@@ -5,7 +5,7 @@ import serial
 
 # Modify if your COM port is different
 port = "COM4"
-baudrate = 9600
+baudrate = 115200
 
 # Your two numbers
 number1 = 140

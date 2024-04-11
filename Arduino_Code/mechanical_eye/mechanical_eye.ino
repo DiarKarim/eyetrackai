@@ -20,8 +20,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // Camera Characteristics
 
 // Resolution
-const int cameraWidth = 1080;
-const int cameraHeight = 1920;
+const int cameraWidth = 640;
+const int cameraHeight = 480;
 
 const float FOV_x = 60.0;
 const float FOV_y= 45.0;
@@ -45,7 +45,7 @@ struct Coordinates {
 };
 
 void setup() {
-  Serial.begin(9600); // Start serial communication at 9600 baud rate
+  Serial.begin(115200); // Start serial communication at 9600 baud rate
   Serial.println("Simplified Eye Mechanism Test");
 
 
@@ -77,7 +77,7 @@ void loop() {
   pwm.setPWM(1, 0, xServoValue);
   pwm.setPWM(0, 0, yServoValue);
   
-  delay(1000);
+  delay(10);
   Serial.println("New eye movement!");
 }
 
@@ -103,8 +103,8 @@ AngularDistance calculateAngularDistance(int x, int y) {
 
   // The prints gives out the new position that the eyes are looking at and their angular distance.
 
-  originOffsetX = x;
-  originOffsetY = y;
+//  originOffsetX = x;
+//  originOffsetY = y;
 
   return result;
 }
@@ -137,4 +137,3 @@ Coordinates readCoordinates() {
   Coordinates result = {x, y};
   return result;
 }
-

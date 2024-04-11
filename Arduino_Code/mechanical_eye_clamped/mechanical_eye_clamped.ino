@@ -11,12 +11,12 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define YSERVOMAX  430
 
 // Camera Characteristics
-const int cameraWidth = 640;
-const int cameraHeight = 480;
+const int cameraWidth = 480;
+const int cameraHeight = 640;
 const float FOV_x = 60.0;
 const float FOV_y= 45.0;
-const float angularDistancePerPixelX = FOV_x/cameraWidth; //60/640
-const float angularDistancePerPixelY = FOV_y/cameraHeight; //45/480
+const float angularDistancePerPixelX = FOV_x/cameraWidth;
+const float angularDistancePerPixelY = FOV_y/cameraHeight;
 
 // Offset for the new origin
 float originOffsetX = 0.0;
@@ -56,7 +56,7 @@ void loop() {
   pwm.setPWM(1, 0, xServoValue);
   pwm.setPWM(0, 0, yServoValue);
   
-  delay(1000);
+  delay(10);
   Serial.println("New eye movement!");
 }
 
@@ -69,10 +69,10 @@ int clampValue(int value, int minVal, int maxVal) {
 
 AngularDistance calculateAngularDistance(int x, int y) {
   AngularDistance result;
-  x += originOffsetX; // 320
-  y += originOffsetY; // 240
-  result.xAD = x * angularDistancePerPixelX; // 320 * (60 / 640)
-  result.yAD = y * angularDistancePerPixelY; // 240 * (45 / 480)
+  x += originOffsetX;
+  y += originOffsetY;
+  result.xAD = x * angularDistancePerPixelX;
+  result.yAD = y * angularDistancePerPixelY;
   originOffsetX = x;
   originOffsetY = y;
   return result;
