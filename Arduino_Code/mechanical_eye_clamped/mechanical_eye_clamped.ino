@@ -33,7 +33,7 @@ struct Coordinates {
 };
 
 void setup() {
-  Serial.begin(115200); // Start serial communication at 9600 baud rate
+  Serial.begin(9600); // Start serial communication at 9600 baud rate
   Serial.println("Simplified Eye Mechanism Test");
 
   pwm.begin(); // Initialize PWM servo driver
@@ -48,8 +48,8 @@ void setup() {
 void loop() {
   Coordinates coords = readCoordinates();
   AngularDistance angularDistance = calculateAngularDistance(coords.x, coords.y);
-  
-  // Map angular distances to servo pulse lengths
+
+//   Map angular distances to servo pulse lengths
   int xServoValue = clampValue(map(angularDistance.xAD, -180, 180, XSERVOMIN, XSERVOMAX), XSERVOMIN, XSERVOMAX);
   int yServoValue = clampValue(map(angularDistance.yAD, -180, 180, YSERVOMIN, YSERVOMAX), YSERVOMIN, YSERVOMAX);
 
