@@ -24,7 +24,7 @@ const int cameraWidth = 640;
 const int cameraHeight = 480;
 
 const float FOV_x = 60.0;
-const float FOV_y= 45.0;
+const float FOV_y= 60.0;
 
 const float angularDistancePerPixelX = FOV_x/cameraWidth;
 const float angularDistancePerPixelY = FOV_y/cameraHeight;
@@ -65,17 +65,20 @@ void loop() {
   // float y = readSerialFloat();
 
   Coordinates coords = readCoordinates();
-  float x = coords.x;
-  float y = coords.y;
-
+  int x = coords.x;
+  int y = coords.y;
+   
   AngularDistance angularDistance = calculateAngularDistance(x, y);
   
   // Map angular distances to servo pulse lengths
   int xServoValue = map(angularDistance.xAD, -180, 180, XSERVOMIN, XSERVOMAX);
   int yServoValue = map(angularDistance.yAD, -180, 180, YSERVOMIN, YSERVOMAX);
-
-  pwm.setPWM(1, 0, xServoValue);
-  pwm.setPWM(0, 0, yServoValue);
+  Serial.print("x servo value:");
+  Serial.print(xServoValue);
+  Serial.print(", y servo value");
+  Serial.println(yServoValue);
+  pwm.setPWM(1, 0, x);
+  pwm.setPWM(0, 0, y);
   
   delay(10);
   Serial.println("New eye movement!");
