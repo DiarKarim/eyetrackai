@@ -11,12 +11,12 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define YSERVOMAX  430
 
 // Camera Characteristics
-const int cameraWidth = 1080;
-const int cameraHeight = 1920;
+const int cameraWidth = 640;
+const int cameraHeight = 480;
 const float FOV_x = 60.0;
 const float FOV_y= 45.0;
-const float angularDistancePerPixelX = FOV_x/cameraWidth;
-const float angularDistancePerPixelY = FOV_y/cameraHeight;
+const float angularDistancePerPixelX = FOV_x/cameraWidth; //60/640
+const float angularDistancePerPixelY = FOV_y/cameraHeight; //45/480
 
 // Offset for the new origin
 float originOffsetX = 0.0;
@@ -48,8 +48,8 @@ void setup() {
 void loop() {
   Coordinates coords = readCoordinates();
   AngularDistance angularDistance = calculateAngularDistance(coords.x, coords.y);
-  
-  // Map angular distances to servo pulse lengths
+
+//   Map angular distances to servo pulse lengths
   int xServoValue = clampValue(map(angularDistance.xAD, -180, 180, XSERVOMIN, XSERVOMAX), XSERVOMIN, XSERVOMAX);
   int yServoValue = clampValue(map(angularDistance.yAD, -180, 180, YSERVOMIN, YSERVOMAX), YSERVOMIN, YSERVOMAX);
 
@@ -69,10 +69,10 @@ int clampValue(int value, int minVal, int maxVal) {
 
 AngularDistance calculateAngularDistance(int x, int y) {
   AngularDistance result;
-  x += originOffsetX;
-  y += originOffsetY;
-  result.xAD = x * angularDistancePerPixelX;
-  result.yAD = y * angularDistancePerPixelY;
+  x += originOffsetX; // 320
+  y += originOffsetY; // 240
+  result.xAD = x * angularDistancePerPixelX; // 320 * (60 / 640)
+  result.yAD = y * angularDistancePerPixelY; // 240 * (45 / 480)
   originOffsetX = x;
   originOffsetY = y;
   return result;
