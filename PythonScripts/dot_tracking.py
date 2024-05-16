@@ -6,7 +6,7 @@ import time
 import serial
 
 # Modify if your COM port is different
-port = "COM4" 
+port = "COM3" 
 baudrate = 9600
 
 # Your two numbers
@@ -15,7 +15,7 @@ number2 = 150
 
 
 # cap = cv2.VideoCapture("tmp/test.mp4")
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.025)
 cap.set(cv2.CAP_PROP_SETTINGS, 1)
 # cap.set(cv2.CAP_PROP_EXPOSURE, 0.0001)
@@ -87,6 +87,6 @@ except serial.SerialException as e:
 
 
 df = pd.DataFrame(circle_info, columns=['x', 'y', 'radius'])
-df.to_csv("tmp/result.csv")
+df.to_csv("result.csv")
 cap.release()
 out.release()
