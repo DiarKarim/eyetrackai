@@ -49,7 +49,7 @@ def detect_circles(frame):
 
 try:
     # Open the serial port
-    with serial.Serial(port, baudrate, timeout=1) as ser:
+    # with serial.Serial(port, baudrate, timeout=1) as ser:
 
         while(cap.isOpened()):
             ret, frame = cap.read()
@@ -70,13 +70,13 @@ try:
                     number1 = circle[0]
                     number2 = circle[1]
 
-                    # Create the data string
-                    data_string = f"{number1},{number2}\n"  # Add a newline as Arduino code expects it
-                    data_bytes = data_string.encode('ascii')
+                    # # Create the data string
+                    # data_string = f"{number1},{number2}\n"  # Add a newline as Arduino code expects it
+                    # data_bytes = data_string.encode('ascii')
 
-                    # Send the data
-                    ser.write(data_bytes)
-                    print("Coordinates sent successfully!")
+                    # # Send the data
+                    # ser.write(data_bytes)
+                    # print("Coordinates sent successfully!")
 
                 out.write(result)
             else:
