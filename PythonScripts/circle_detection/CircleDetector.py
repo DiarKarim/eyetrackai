@@ -33,7 +33,7 @@ class CircleDetector:
 
         # Apply Hough Circle Transform to detect the circle in the frame
         circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 50,
-                               param1=50, param2=30, minRadius=0, maxRadius=0)          
+                               param1=100, param2=50, minRadius=0, maxRadius=0)          
 
         if circles is not None:
             # Rounds the decimal of the position and radius of the circle

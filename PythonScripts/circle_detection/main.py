@@ -30,8 +30,8 @@ def main():
             # Send coordinates over UDP:
             udp_client.send_coordinates(coordinates)
 
-            # Display frame
-            cv2.imshow('Real-Time Display', frame)
+        # Display frame
+        cv2.imshow('Real-Time Display', frame)
 
         # Pressing Q in the Window will stop the capture and end the program
         if cv2.waitKey(1) == ord('q'):
