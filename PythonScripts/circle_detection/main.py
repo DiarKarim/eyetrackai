@@ -10,7 +10,7 @@ UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
 
 def main():
-    detector = CircleDetector(num_frames=10)
+    detector = CircleDetector()
     udp_client = UDPClient(UDP_IP, UDP_PORT)
     
     while True:

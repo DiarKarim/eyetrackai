@@ -3,9 +3,9 @@ import numpy as np
 import math
 
 # 初始化窗口参数
-height, width = 2000, 2000
+height, width = 900, 1000
 center_x, center_y = width // 2, height // 2
-radius = 500  # 圆形路径的半径
+radius = 10  # 圆形路径的半径
 
 # 创建一个白色背景图像
 image = np.zeros((height, width, 3), np.uint8) + 255
