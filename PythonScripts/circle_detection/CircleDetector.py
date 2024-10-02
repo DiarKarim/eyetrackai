@@ -2,9 +2,9 @@ import numpy as np
 import cv2
 
 class CircleDetector:
-    def __init__(self, num_frames=10, smoothing_factor=0.8):
+    def __init__(self, num_frames=10, smoothing_factor=1.0):
         """
-        Initializes the class with a given number of frames for smoothing.
+        Initialises the class with a given number of frames for smoothing.
 
         :param num_frames: Number of frames for moving average smoothing
         :param smoothing_factor: Factor to weight the previous position
@@ -15,7 +15,7 @@ class CircleDetector:
 
     def _detect_circles(self, gray):
         """
-        Detects circles in a grayscale image using the Hough Circle Transform.
+        Detects circles in a greyscale image using the Hough Circle Transform.
 
         :param gray: Grayscale image
         :return: Detected circles or None if no circles found

@@ -18,7 +18,7 @@ def main():
     
         # if frame is read correctly ret is True
         if not ret:
-            print("Can't receive frame (stream end?). Exiting ...")
+            print("Can't receive frame (stream end?). Exiting...")
             break
         
         # Call the Process Frame function in CircleDetector to find the frame
