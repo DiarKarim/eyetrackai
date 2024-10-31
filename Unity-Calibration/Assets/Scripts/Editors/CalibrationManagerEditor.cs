@@ -12,8 +12,20 @@ public class CalibrationManagerEditor : Editor
         if (GUILayout.Button("Set Point Visibility"))
         {
             calibrationManager.SetInvisible();
-            // EditorUtility.SetDirty(calibrationManager.gameObject);
-            // PrefabUtility.SavePrefabAsset(calibrationManager.gameObject);
         }
+
+        
+
+        EditorGUI.BeginDisabledGroup(!Application.isPlaying);
+        if (GUILayout.Button(calibrationManager._isMoving ? "Stop Movement" : "Start Movement"))
+        {
+            calibrationManager.ToggleMovement();
+        }
+        
+        if (GUILayout.Button("Reset")) 
+        { 
+            calibrationManager.Reset(); 
+        }
+        EditorGUI.EndDisabledGroup();
     }
 }

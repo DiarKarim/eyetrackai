@@ -8,7 +8,6 @@ using System;
 public class UDPCommunication : MonoBehaviour
 {
     [SerializeField] Transform targetTransform;
-    [SerializeField] Transform cameraTransform;
     [SerializeField] string serverIP = "127.0.0.1";
     [SerializeField] int port = 8000;
     private UdpClient _client;
@@ -22,9 +21,9 @@ public class UDPCommunication : MonoBehaviour
     private void Update()
     {
         // Debug.Log("SendMessage called");
-        SendMessage($"{Math.Round(targetTransform.position.x, 2)},{Math.Round(targetTransform.position.y, 2)}");
+        // SendMessage($"{Math.Round(targetTransform.position.x, 2)},{Math.Round(targetTransform.position.y, 2)}");
     }
-    void SendMessage(string message)
+    public void SendUDPMessage(string message)
     {
         if (_client != null) // Making sure there is a client to use
         {
