@@ -6,6 +6,7 @@ using System;
 
 public class CalibrationManager : MonoBehaviour
 {
+    [Header("Reference")]
     [Tooltip("The Object we want to move through a path.")]
     [SerializeField] GameObject target;
 
@@ -13,8 +14,9 @@ public class CalibrationManager : MonoBehaviour
     [SerializeField] GameObject points;
 
     [Tooltip("UDP Communication")]
-    [SerializeField] UDPCommunication udp;
+    [SerializeField] UDPCommunication UDPCommunication;
 
+    [Header("Movement Settings")]
     [Tooltip("The order of points we want the Target to follow.")]
     [SerializeField] Transform[] pathPoints;
 
@@ -27,11 +29,14 @@ public class CalibrationManager : MonoBehaviour
     [Tooltip("Velocity profile curve, 0 to 1 time on x-axis and 0 to 1 velocity factor on y-axis.")]
     [SerializeField] AnimationCurve velocityProfile = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
+
     private int _currentPointIndex = 0;
     private bool _movingForward = true;
     private bool _isWaiting = false;
-    public bool _isMoving = false;
 
+    [Header("Buttons")]
+    public bool _isMoving = false;
+    public bool _isStatic = false;
     private float _distanceToNextPoint;
     private float _distanceCovered;
 
@@ -60,11 +65,12 @@ public class CalibrationManager : MonoBehaviour
         if (Vector3.Distance(target.transform.position, destinationPosition) < 0.1f)
         {
             string pointID = pathPoints[_currentPointIndex].gameObject.name;
-            udp.SendUDPMessage($"Reached Point {pointID}");
+            UDPCommunication.SendUDPMessage($"Reached Point {pointID}");
             StartCoroutine(WaitAtPoint());
         }
 
-        udp.SendUDPMessage($"{Math.Round(target.transform.position.x, 1)},{Math.Round(target.transform.position.y, 1)}");
+        SendPosition();
+
     }
 
     private IEnumerator WaitAtPoint()
@@ -89,7 +95,6 @@ public class CalibrationManager : MonoBehaviour
         _isWaiting = false;
     }
 
-
     public void SetInvisible()
     {
         points.SetActive(!points.activeSelf); // Sets the visibility of the points if needed
@@ -97,6 +102,11 @@ public class CalibrationManager : MonoBehaviour
 
     public void ToggleMovement()
     {
+        if (_isStatic)
+        {
+            Reset();
+        }
+
         _isMoving = !_isMoving;
     }
 
@@ -107,5 +117,11 @@ public class CalibrationManager : MonoBehaviour
         _distanceToNextPoint = Vector3.Distance(target.transform.position, pathPoints[_currentPointIndex].position);
         _distanceCovered = 0;
         _isMoving = false;
+        _isStatic = false;
+    }
+
+    public void SendPosition()
+    {
+        UDPCommunication.SendUDPMessage($"{Math.Round(target.transform.position.x, 1)},{Math.Round(target.transform.position.y, 1)}");
     }
 }
